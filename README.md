@@ -4,6 +4,8 @@
   <img alt="Demo" src="./thumbnail.png" />
 </div>
 
+### Youtube: https://youtu.be/9LTCWvS988g
+
 # How to run this project
 
 ## ------------ Mac / Linux ------------

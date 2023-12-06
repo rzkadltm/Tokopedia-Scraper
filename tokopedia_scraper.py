@@ -22,11 +22,16 @@ class TokopediaScraper:
         self.scroll_increment = 100
         self.scroll_duration = 0.3
     
+    # ------------------------------------------------------------
+    #                        Main Function
+    # ------------------------------------------------------------
     def run(self, keywords, pages):
+        url = f'{self.base_url}{keywords}{self.page_url}'
+        self.driver.maximize_window()
+        self.driver.get(url)
         for _ in range(pages):
-            url = f'{self.base_url}{keywords}{self.page_url}'
-            self.driver.get(url)
             total_height = int(self.driver.execute_script("return Math.max( document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight );"))
+            time.sleep(1)
             for i in range(0, total_height, self.scroll_increment):
                 self.driver.execute_script(f"window.scrollBy(0, {self.scroll_increment});")
                 time.sleep(self.scroll_duration)
@@ -109,12 +114,20 @@ class TokopediaScraper:
             time.sleep(0.3)
             self.driver.execute_script(f"window.scrollBy(0, -250);")
             button.click()
+            time.sleep(3)
 
+        
+        # ------------------------------------------------------------
+        #                 Replace | to , in datas
+        # ------------------------------------------------------------
         for row in self.datas:
             for key, value in row.items():
                 if isinstance(value, str):
                     row[key] = value.replace('|', ',')
         
+        # ------------------------------------------------------------
+        #                   Convert datas array to csv
+        # ------------------------------------------------------------
         csv_file_name = f'data_{keywords}_tokopedia.csv'
         field_names = ["id", "nama_product", "terjual", "rating", "lokasi", "nama_toko", "img", "link_product"]
         with open(csv_file_name, mode='w', newline='') as csv_file:

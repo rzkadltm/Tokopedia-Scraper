@@ -3,6 +3,7 @@
 <div align="center">
   <img alt="Demo" src="./thumbnail.png" />
 </div>
+
 # How to run this project
 
 ## ------------ Mac / Linux ------------
